@@ -45,6 +45,43 @@ class Event:
     def __str__(self):
         return f"ID: {self.id},Event title: {self.title},Description: {self.description},Time: {self.start_at} - {self.end_at}"
 
+class Day:
+        def __init__(self,date_:date,):
+            self.date_ = date_
+            self.slots: dict[time, str | None] = {}
+
+        def _init_slots(self):
+            for hour in range(24):
+                for minute in range(0, 60, 15):
+                    self.slots[time(hour, minute)] = None
+
+        def add_event(self, event_id:str , start_at: time, end_at: time):
+            pass
+
+        def delete_event(self, event_id: str):
+            deleted = False
+            for slot, saved_id in self.slots.items():
+                if saved_id == event_id:
+                    self.slots[slot] = None
+                    deleted = True
+            if not deleted:
+                event_not_found_error()
+
+        def update_event(self, event_id: str, start_at: time, end_at: time):
+            for slot in self.slots:
+                if self.slots[slot] == event_id:
+                    self.slots[slot] = None
+
+            for slot in self.slots:
+                if start_at <= slot < end_at:
+                    if self.slots[slot]:
+                        slot_not_available_error()
+                    else:
+                        self.slots[slot] = event_id
+
+
+
+
 
 
 
